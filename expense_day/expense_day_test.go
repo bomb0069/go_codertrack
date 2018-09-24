@@ -49,3 +49,26 @@ func Test_expense_first_with_20_food(t *testing.T) {
 	}
 
 }
+
+func Test_full_opening_with_(t *testing.T) {
+	expected := map[string]int{
+		"Mon": 0,
+		"Tue": 0,
+		"Wed": 0,
+		"Thu": 227,
+		"Fri": 0,
+		"Sat": 0,
+		"Sun": 0,
+	}
+
+	expense := NewExpense()
+
+	expense.read("expense_first_day.txt")
+
+	actual := expense.summaryByDay()
+
+	if !reflect.DeepEqual(expected, actual) {
+		t.Errorf("%v != %v", expected, actual)
+	}
+
+}

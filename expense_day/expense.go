@@ -46,7 +46,7 @@ func (e *Expense) read(fileName string) {
 			} else {
 				expenseCostString = word[1:len(word)]
 				expenseCost, _ := strconv.Atoi(expenseCostString)
-				e.byDay[day] = expenseCost
+				e.byDay[day] = e.byDay[day] + expenseCost
 			}
 		}
 
