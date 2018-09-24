@@ -9,7 +9,7 @@ import (
 var dayMapper = map[string]string{
 	"5": "Mon",
 	"6": "Tue",
-	"7": "Wed",
+	"0": "Wed",
 	"1": "Thu",
 	"2": "Fri",
 	"3": "Sat",
@@ -42,7 +42,10 @@ func (e *Expense) read(fileName string) {
 		for index, word := range expenseDate {
 			expenseCostString := ""
 			if index == 0 {
-				day = dayMapper[word]
+				dayNum, _ := strconv.Atoi(word)
+				dayNum = dayNum % 7
+				dayString := strconv.Itoa(dayNum)
+				day = dayMapper[dayString]
 			} else {
 				expenseCostString = word[1:len(word)]
 				expenseCost, _ := strconv.Atoi(expenseCostString)
