@@ -118,3 +118,26 @@ func Test_more_than_one_week(t *testing.T) {
 	}
 
 }
+
+func Test_all_data(t *testing.T) {
+	expected := map[string]int{
+		"Mon": 1587,
+		"Tue": 915,
+		"Wed": 932,
+		"Thu": 1565,
+		"Fri": 1184,
+		"Sat": 287,
+		"Sun": 98,
+	}
+	
+	expense := NewExpense()
+
+	expense.read("expense_all_data.txt")
+
+	actual := expense.summaryByDay()
+
+	if !reflect.DeepEqual(expected, actual) {
+		t.Errorf("%v != %v", expected, actual)
+	}
+
+}
