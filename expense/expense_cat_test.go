@@ -12,7 +12,7 @@ func Test_empty_file_will_return_total_0(t *testing.T) {
 
 	expense := NewExpense()
 
-	expense.read("./expense_by_day/expense_day_data.txt")
+	expense.read("./expense_data/expense_day_data.txt")
 
 	actual := expense.summaryByCat()
 
@@ -29,7 +29,7 @@ func Test_expense_first_with_20_food_by_cat(t *testing.T) {
 
 	expense := NewExpense()
 
-	expense.read("./expense_by_day/expense_first_with_20_food.txt")
+	expense.read("./expense_data/expense_first_with_20_food.txt")
 
 	actual := expense.summaryByCat()
 
@@ -41,17 +41,17 @@ func Test_expense_first_with_20_food_by_cat(t *testing.T) {
 
 func Test_all_data_by_cat(t *testing.T) {
 	expected := map[string]int{
-		"transportation":279,
-		"movie":1680,
-		"game":1220,
-		"food":3057,
-		"stationery":332,
-		"TOTAL":6568,
+		"transportation": 279,
+		"movie":          1680,
+		"game":           1220,
+		"food":           3057,
+		"stationery":     332,
+		"TOTAL":          6568,
 	}
 
 	expense := NewExpense()
 
-	expense.read("./expense_by_day/expense_all_data.txt")
+	expense.read("./expense_data/expense_all_data.txt")
 
 	actual := expense.summaryByCat()
 
