@@ -1,6 +1,7 @@
 package expense
 
 import (
+	"fmt"
 	"io/ioutil"
 	"strconv"
 	"strings"
@@ -116,9 +117,16 @@ func (e *Expense) averagePerDay() float64 {
 		return 0.00
 	}
 
-	allCost := 0
+	byDay := map[int]int{}
 	for _, payment := range e.payments {
-		allCost = allCost + payment.price
+		byDay[payment.date] = byDay[payment.date] + payment.price
 	}
-	return float64(allCost) / float64(len(e.payments))
+
+	allCost := 0
+	for key, prices := range byDay {
+		fmt.Printf("%d : %d", key, prices)
+		fmt.Println("")
+		allCost = allCost + prices
+	}
+	return float64(allCost) / float64(len(byDay))
 }
