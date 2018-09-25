@@ -110,3 +110,7 @@ func (e *Expense) summaryByCat() map[string]int {
 	e.byCat["TOTAL"] = total
 	return e.byCat
 }
+
+func (e *Expense) averagePerDay() float64 {
+	return 0.00
+}
