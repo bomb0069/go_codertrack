@@ -1,4 +1,4 @@
-package expense_day
+package expense
 
 import (
 	"reflect"
@@ -18,7 +18,7 @@ func Test_empty_file_will_return_all_0(t *testing.T) {
 
 	expense := NewExpense()
 
-	expense.read("expense_day_data.txt")
+	expense.read("./expense_by_day/expense_day_data.txt")
 
 	actual := expense.summaryByDay()
 
@@ -40,7 +40,7 @@ func Test_expense_first_with_20_food(t *testing.T) {
 
 	expense := NewExpense()
 
-	expense.read("expense_first_with_20_food.txt")
+	expense.read("./expense_by_day/expense_first_with_20_food.txt")
 
 	actual := expense.summaryByDay()
 
@@ -63,7 +63,7 @@ func Test_first_day(t *testing.T) {
 
 	expense := NewExpense()
 
-	expense.read("expense_first_day.txt")
+	expense.read("./expense_by_day/expense_first_day.txt")
 
 	actual := expense.summaryByDay()
 
@@ -86,7 +86,7 @@ func Test_first_week(t *testing.T) {
 
 	expense := NewExpense()
 
-	expense.read("expense_first_week.txt")
+	expense.read("./expense_by_day/expense_first_week.txt")
 
 	actual := expense.summaryByDay()
 
@@ -109,7 +109,7 @@ func Test_more_than_one_week(t *testing.T) {
 
 	expense := NewExpense()
 
-	expense.read("expense_more_than_one_week.txt")
+	expense.read("./expense_by_day/expense_more_than_one_week.txt")
 
 	actual := expense.summaryByDay()
 
@@ -129,10 +129,10 @@ func Test_all_data(t *testing.T) {
 		"Sat": 287,
 		"Sun": 98,
 	}
-	
+
 	expense := NewExpense()
 
-	expense.read("expense_all_data.txt")
+	expense.read("./expense_by_day/expense_all_data.txt")
 
 	actual := expense.summaryByDay()
 

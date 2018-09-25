@@ -1,4 +1,4 @@
-package expense_day
+package expense
 
 import (
 	"io/ioutil"
