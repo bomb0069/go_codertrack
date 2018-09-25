@@ -16,8 +16,26 @@ var dayMapper = map[string]string{
 	"4": "Sun",
 }
 
+var catMapper = map[string]string{
+	"f": "food",           // (อาหาร)
+	"g": "game",           // (เล่นเกม)
+	"m": "movie",          // (ดูหนัง)
+	"s": "stationery",     // (เครื่องเขียน)
+	"t": "transportation", // (ค่าเดินทาง)
+}
+
+type Payment struct {
+	date     int
+	day      string
+	cat      string
+	category string
+	price    int
+}
+
 type Expense struct {
-	byDay map[string]int
+	byDay    map[string]int
+	byCat    map[string]int
+	payments []Payment
 }
 
 func NewExpense() Expense {
@@ -30,7 +48,11 @@ func NewExpense() Expense {
 		"Sat": 0,
 		"Sun": 0,
 	}
-	return Expense{byDay}
+	byCat := map[string]int{
+		"TOTAL": 0,
+	}
+	payments := []Payment{}
+	return Expense{byDay, byCat, payments}
 }
 
 func (e *Expense) read(fileName string) {
@@ -39,17 +61,28 @@ func (e *Expense) read(fileName string) {
 	for _, line := range splittedLine {
 		expenseDate := strings.Fields(line)
 		day := ""
+		dayRead := 0
+		dayString := ""
 		for index, word := range expenseDate {
 			expenseCostString := ""
 			if index == 0 {
-				dayNum, _ := strconv.Atoi(word)
-				dayNum = dayNum % 7
-				dayString := strconv.Itoa(dayNum)
-				day = dayMapper[dayString]
+				dayRead, _ = strconv.Atoi(word)
+				dayNum := dayRead % 7
+				day = strconv.Itoa(dayNum)
+				dayString = dayMapper[day]
 			} else {
+				catShort := word[0:1]
+				catDescription := catMapper[catShort]
 				expenseCostString = word[1:len(word)]
 				expenseCost, _ := strconv.Atoi(expenseCostString)
-				e.byDay[day] = e.byDay[day] + expenseCost
+				payment := Payment{
+					date:     dayRead,
+					day:      dayString,
+					cat:      catShort,
+					category: catDescription,
+					price:    expenseCost,
+				}
+				e.payments = append(e.payments, payment)
 			}
 		}
 
@@ -57,5 +90,23 @@ func (e *Expense) read(fileName string) {
 }
 
 func (e *Expense) summaryByDay() map[string]int {
+	for _, payment := range e.payments {
+		dayString := payment.day
+		expenseCost := payment.price
+		e.byDay[dayString] = e.byDay[dayString] + expenseCost
+	}
+
 	return e.byDay
+}
+
+func (e *Expense) summaryByCat() map[string]int {
+	total := 0
+	for _, payment := range e.payments {
+		catString := payment.category
+		expenseCost := payment.price
+		total = total + expenseCost
+		e.byCat[catString] = e.byCat[catString] + expenseCost
+	}
+	e.byCat["TOTAL"] = total
+	return e.byCat
 }
