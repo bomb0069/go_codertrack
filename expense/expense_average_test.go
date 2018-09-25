@@ -1,6 +1,7 @@
 package expense
 
 import (
+	"fmt"
 	"math"
 	"testing"
 )
@@ -60,5 +61,19 @@ func Test_average_for_first_week(t *testing.T) {
 
 	if diff := math.Abs(expected - actual); diff > TOLERANCE {
 		t.Errorf("%.2f != %.2f", expected, actual)
+	}
+}
+
+func Test_average_for_all_data(t *testing.T) {
+	expected := 211.8709677419
+
+	expense := NewExpense()
+
+	expense.read("./expense_data/expense_all_data.txt")
+
+	actual := expense.averagePerDay()
+	fmt.Printf("%.2f != %.10f", expected, actual)
+	if diff := math.Abs(expected - actual); diff > TOLERANCE {
+		t.Errorf("%.2f != %.10f", expected, actual)
 	}
 }

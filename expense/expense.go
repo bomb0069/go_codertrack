@@ -1,7 +1,6 @@
 package expense
 
 import (
-	"fmt"
 	"io/ioutil"
 	"strconv"
 	"strings"
@@ -71,6 +70,16 @@ func (e *Expense) read(fileName string) {
 				dayNum := dayRead % 7
 				day = strconv.Itoa(dayNum)
 				dayString = dayMapper[day]
+				if len(expenseDate) == 1 {
+					payment := Payment{
+						date:     dayRead,
+						day:      dayString,
+						cat:      "",
+						category: "",
+						price:    0,
+					}
+					e.payments = append(e.payments, payment)
+				}
 			} else {
 				catShort := word[0:1]
 				catDescription := catMapper[catShort]
@@ -106,7 +115,9 @@ func (e *Expense) summaryByCat() map[string]int {
 		catString := payment.category
 		expenseCost := payment.price
 		total = total + expenseCost
-		e.byCat[catString] = e.byCat[catString] + expenseCost
+		if catString != "" {
+			e.byCat[catString] = e.byCat[catString] + expenseCost
+		}
 	}
 	e.byCat["TOTAL"] = total
 	return e.byCat
@@ -123,9 +134,7 @@ func (e *Expense) averagePerDay() float64 {
 	}
 
 	allCost := 0
-	for key, prices := range byDay {
-		fmt.Printf("%d : %d", key, prices)
-		fmt.Println("")
+	for _, prices := range byDay {
 		allCost = allCost + prices
 	}
 	return float64(allCost) / float64(len(byDay))
