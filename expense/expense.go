@@ -112,5 +112,13 @@ func (e *Expense) summaryByCat() map[string]int {
 }
 
 func (e *Expense) averagePerDay() float64 {
-	return 0.00
+	if len(e.payments) == 0 {
+		return 0.00
+	}
+
+	allCost := 0
+	for _, payment := range e.payments {
+		allCost = allCost + payment.price
+	}
+	return float64(allCost) / float64(len(e.payments))
 }
